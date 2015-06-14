@@ -24,59 +24,67 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    /*private func clc(n: Int, s: Int, op: Int)->Int{
-        if op == 1 {
-            n += s
+    
+    //番号ボタンが押された時のlabel更新
+    private func renewal(btnum:Int){
+        if operation == 5 {
+            mainlabel.text = String("\(num) (ERR:Choice ope)")
+        }else{
+            if st != 0 {
+                st = st * 10
+            }
+            st += btnum
+            mainlabel.text = String(st)
         }
-        else if op == 2{
-            self.n -= self.s
-        }
-        self.s = 0
-        
     }
-*/
+    
+    // 演算の実行
+    private func clc(){
+        if operation == 0 {
+            num = st
+        } else if operation == 1 {
+            num += st
+        } else if operation == 2 {
+            num -= st
+        } else if operation == 5 {
+            //do nothing 次は必ず演算子
+        }
+    }
     
     
     @IBAction func bt3() {
-        if st != 0 {
-            st = st * 10
-        }
-        st += 3
-        mainlabel.text = String(st)
+        renewal(3)
     }
     @IBAction func bt4() {
-        if st != 0 {
-            st = st * 10
-        }
-        st += 4
-        mainlabel.text = String(st)
+        renewal(4)
     }
     
     @IBAction func plus() { // tag -> 1
-        operation = 1
-        num = st
+        if operation != 5 {
+            clc()
+        }
+        mainlabel.text = String("\(num) +")
         st = 0
+        operation = 1
     }
     @IBAction func minus() {
-        operation = 2
-        num = st
+        if operation != 5 {
+            clc()
+        }
+        mainlabel.text = String("\(num) -")
         st = 0
+        operation = 2
     }
     @IBAction func btac() {
+        st = 0
         num = 0
         operation = 0 //初期化
         mainlabel.text = String(num)
     }
     @IBAction func btclc() { //「=」ボタン
-        if operation == 1 {
-            num += st
-        }
-        else if operation == 2{
-            num -= st
-        }
-        st = 0
-        operation = 0 //初期化
-        mainlabel.text = String(num)
+        clc()
+        operation = 5 //追加演算の準備
+        mainlabel.text = String("= \(num)")
         
     }
 
