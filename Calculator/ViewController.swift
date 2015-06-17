@@ -14,8 +14,12 @@ class ViewController: UIViewController {
     var st: Float = 0
     var operation:Int = 0
     var floatdisplay:Bool = false //小数表示するか否か true -> する
+    var addstr:String = ""
+    var historystr:String = ""
+    
+    @IBOutlet weak var historyText: UITextView! //履歴
     @IBOutlet weak var mainlabel: UILabel!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -37,6 +41,10 @@ class ViewController: UIViewController {
             }
             st += btnum
             mainlabel.text = String(format: "%.f", st)
+            
+            addstr = String(format: "%.f ", st)
+            historystr += addstr
+            historyText.text =  historyText.text + String(format: "%.f", btnum) //履歴に数字を追加
         }
     }
     
@@ -60,50 +68,35 @@ class ViewController: UIViewController {
             clc()
         }
         st = 0
+        if operation != 0 { historyText.text = historyText.text + String(format: "%.f", num) }
         operation = x
     }
-    @IBAction func bt0() {
-        renewal(0)
-    }
-    @IBAction func bt1() {
-        renewal(1)
-    }
-    @IBAction func bt2() {
-        renewal(2)
-    }
-    @IBAction func bt3() {
-        renewal(3)
-    }
-    @IBAction func bt4() {
-        renewal(4)
-    }
-    @IBAction func bt5() {
-        renewal(5)
-    }
-    @IBAction func bt6() {
-        renewal(6)
-    }
-    @IBAction func bt7() {
-        renewal(7)
-    }
-    @IBAction func bt8() {
-        renewal(8)
-    }
-    @IBAction func bt9() {
-        renewal(9)
-    }
+    
+    @IBAction func bt0() { renewal(0) }
+    @IBAction func bt1() { renewal(1) }
+    @IBAction func bt2() { renewal(2) }
+    @IBAction func bt3() { renewal(3) }
+    @IBAction func bt4() { renewal(4) }
+    @IBAction func bt5() { renewal(5) }
+    @IBAction func bt6() { renewal(6) }
+    @IBAction func bt7() { renewal(7) }
+    @IBAction func bt8() { renewal(8) }
+    @IBAction func bt9() { renewal(9) }
     
     @IBAction func plus() {
         pressope(1)
         mainlabel.text = String(format: "%.f +", num)
+        historyText.text = historyText.text + String(" + ") //履歴に演算子を追加
     }
     @IBAction func minus() {
         pressope(2)
         mainlabel.text = String(format: "%.f -", num)
+        historyText.text = historyText.text + String(" - ") //履歴に演算子を追加
     }
     @IBAction func multiply() {
         pressope(3)
         mainlabel.text = String(format: "%.f ×", num)
+        historyText.text = historyText.text + " × " //履歴に演算子を追加
 
     }
     @IBAction func btac() {
@@ -111,11 +104,14 @@ class ViewController: UIViewController {
         num = 0
         operation = 0 //初期化
         mainlabel.text = String(0)
+        historyText.text = historyText.text + String("---AC---\n")
+
     }
     @IBAction func btclc() { //「=」ボタン
         clc()
         operation = 5 //追加演算の準備
         mainlabel.text = String(format: "= %.f", num)
+        historyText.text = historyText.text + String(format: " = %.f \n", num) //履歴に演算子を追加
         
     }
 
