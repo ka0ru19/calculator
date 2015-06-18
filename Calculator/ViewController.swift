@@ -114,6 +114,9 @@ class ViewController: UIViewController {
         historyText.text = historyText.text + String(format: " = %.f \n", num) //履歴に演算子を追加
         
     }
+    @IBAction func resetHistory() {
+        historyText.text = nil
+    }
 
 }
 
